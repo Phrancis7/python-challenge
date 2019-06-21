@@ -3,61 +3,54 @@ import os
 import csv
 
 # activation from Francis's Mac downloads
-electioncsv = '/Users/francisokot/Downloads/election.csv'
+budget_csv = os.path.join("bu/Users/francisokot/Downloads/Budget.csv")
 
-# open csv
-with open(electioncsv, newline="") as csvfile:
-    csvreader = csv.reader(csvfile, delimiter=",")
-    header = next(csvreader)
+with open('/Users/francisokot/Downloads/Budget.csv', newline='') as csvfile:
+   csvreader=csv.reader(csvfile)
+   header=next(csvreader)
 
-    # list variables
-    total_votes = 0
-    Khan_votes = 0
-    Correy_votes = 0
-    Li_votes = 0
-    Tooley_votes = 0
-    
-    # start loop
-    for row in csvreader:
-    
-        # row + total_votes
-        total_votes = total_votes + 1
-        
-        # if the name in row[2] = Khan, then add to Khan_votes
-        if row[2] == "Khan":
-            Khan_votes = Khan_votes + 1
-        
-        # elif the name in row[2] = Correy, then add to Correy_votes
-        elif row[2] == "Correy":
-            Correy_votes = Correy_votes + 1
-            
-        # elif if the name in row[2] = Li, then add to Li_votes
-        elif row[2] == "Li":
-            Li_votes = Li_votes + 1
-            
-        # elif if the name in row[2] = O'Tooley, then add to Tooley_Votes
-        elif row[2] == "O'Tooley":
-            Tooley_votes = Tooley_votes + 1
-        
-            
-    # highest votes
-    if Khan_votes > Correy_votes:
-        winner = "Khan"
-    
-    # converted to %
-    pkhan_votes = (Khan_votes/total_votes) * 100
-    pcorrey_votes = (Correy_votes/total_votes) * 100
-    pli_votes = (Li_votes/total_votes) * 100
-    ptooley_votes = (Tooley_votes/total_votes) * 100
-        
-print(f"Election Results")
-print("-------------------------")
-print(f"Total Votes: {total_votes}")
-print("-------------------------")
-print(f"Khan: {pkhan_votes}% ({Khan_votes} votes)")
-print(f"Correy: {pcorrey_votes}% ({Correy_votes} votes)")
-print(f"Li: {pli_votes}% ({Li_votes} votes)")
-print(f"O'Tooley: {ptooley_votes}% ({Tooley_votes} votes)")
-print("-------------------------")
-print(f"Winner: {winner}")
-print("-------------------------")
+# variables
+   total_months=0
+   total_pl=0.0
+   average_total_pl=0
+   change_monthly=0
+   month_past=0
+   total_change_month=0
+   greatest_increase=0
+   greatest_decrease=0
+   date_1=str
+   date_2=str
+   
+ 
+# Total profit/loss and total month total number of total_months Loop
+   for row in csvreader:
+      
+# total Profit/loss sum
+      total_pl+=int(row[1])
+      total_months+=1
+
+# average of "Profit/Losses" 
+      average_total_pl=total_pl/(total_months)
+      change_monthly=int(row[1])-month_past
+      total_change_month=total_change_month+change_monthly
+      month_past=int(row[1])
+
+# greatest increase in profits 
+      if greatest_increase< change_monthly:
+         greatest_increase=change_monthly
+         date_2=str(row[0])
+
+# greatest decrease in losses
+      if greatest_decrease>change_monthly:
+         greatest_decrease=change_monthly
+         date_1=str(row[0])
+
+      
+print("\nFinancial Analysis")
+print("----------------------")
+print()
+print(f"Total Months: {total_months}")
+print(f"Total: ${total_pl}")
+print(f"Average: ${average_total_pl}")
+print(f"Greatest increase in profit on {date_2} is ${greatest_increase}")
+print(f"Greatest decrease in profit on {date_1} is ${greatest_decrease}\n")
